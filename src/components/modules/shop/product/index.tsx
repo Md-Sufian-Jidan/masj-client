@@ -5,13 +5,14 @@ import { Edit, Eye, Plus, Trash } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
-import { IProduct } from "@/types";
+import { IMeta, IProduct } from "@/types";
 import { ReusableTable } from "@/components/ui/core/table/ReusableTable";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useState } from "react";
 import DiscountModal from "./DiscountModal";
+import TablePagination from "@/components/ui/core/table/TablePagination";
 
-const ManageProducts = ({ products }: { products: IProduct[] }) => {
+const ManageProducts = ({ products, meta }: { products: IProduct[], meta: IMeta }) => {
   const router = useRouter();
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
 
@@ -153,6 +154,7 @@ const ManageProducts = ({ products }: { products: IProduct[] }) => {
         </div>
       </div>
       <ReusableTable columns={columns} data={products || []} />
+      <TablePagination totalPage={meta?.totalPage || 10} />
     </div>
   );
 };

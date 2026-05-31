@@ -9,16 +9,13 @@ if (!api_url) {
 }
 
 // get all products
-export const getAllProducts = async (page?: string) => {
+export const getAllProducts = async (page?: string, limit?: string) => {
     try {
-        const res = await fetch(
-            `${api_url}/product?page=${page}`,
-            {
-                next: {
-                    tags: ["PRODUCT"],
-                },
-            }
-        );
+        const res = await fetch(`${api_url}/product?page=${page}&limit=${limit}`, {
+            next: {
+                tags: ["PRODUCT"],
+            },
+        });
         const data = await res.json();
         return data;
     } catch (error: any) {
