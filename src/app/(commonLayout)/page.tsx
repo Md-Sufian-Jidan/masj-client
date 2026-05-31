@@ -1,6 +1,7 @@
 import Category from "@/components/modules/home/category";
 import FeaturedProducts from "@/components/modules/home/FeaturedProducts";
 import HeroSection from "@/components/modules/home/HeroSection";
+import TopBrands from "@/components/modules/home/TopBrands";
 
 const HomePage = () => {
     return (
@@ -8,6 +9,7 @@ const HomePage = () => {
             <HeroSection />
             <Category />
             <FeaturedProducts />
+            <TopBrands />
         </div>
     );
 };
