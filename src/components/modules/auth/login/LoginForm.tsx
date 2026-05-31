@@ -8,7 +8,7 @@ import { toast } from "sonner";
 import { loginSchema } from "./loginValidation";
 import { useState } from "react";
 import Logo from "@/app/assets/svgs/logo";
-import { loginUser, reCaptchaTokenVerification } from "@/services/AuthService";
+import { loginUser, reCaptchaTokenVerification } from "@/services/authService";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";

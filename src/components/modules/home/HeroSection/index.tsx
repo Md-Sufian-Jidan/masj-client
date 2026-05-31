@@ -8,11 +8,11 @@ const HeroSection = () => {
     return (
         <ResuableContainer>
             <div
-                className={`${styles.banner} border-2 border-white rounded-3xl  mt-10`}
+                className={`${styles.banner} border-2 border-white rounded-3xl  mt-10 flex flex-col items-center justify-center`}
             >
                 <div className="grid grid-cols-2 items-center gap-4">
                     <div className="pl-12">
-                        <h1 className="text-4xl font-bold leading-normal">
+                        <h1 className="lg:text-4xl text-3xl font-bold leading-normal">
                             Don&apos;t Miss Out on <br /> These Unbeatable Black <br /> Friday
                             Deals!
                         </h1>

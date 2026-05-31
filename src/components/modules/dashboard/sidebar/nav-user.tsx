@@ -18,7 +18,7 @@ import {
 } from "@/components/ui/sidebar";
 import { useUser } from "@/context/UserContext";
 import { usePathname, useRouter } from "next/navigation";
-import { logout } from "@/services/AuthService";
+import { logout } from "@/services/authService";
 import { protectedRoutes } from "@/contants";
 
 export function NavUser() {

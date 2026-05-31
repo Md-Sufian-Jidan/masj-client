@@ -17,7 +17,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { registrationSchema } from "./registerValidation";
 import { toast } from "sonner";
 import { z } from "zod";
-import { registerUser } from "@/services/AuthService";
+import { registerUser } from "@/services/authService";
 
 export default function RegisterForm() {
     const form = useForm<z.infer<typeof registrationSchema>>({

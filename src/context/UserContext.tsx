@@ -1,5 +1,5 @@
 "use client";
-import { getCurrentUser } from "@/services/AuthService";
+import { getCurrentUser } from "@/services/authService";
 import { IUser } from "@/types";
 import { createContext, useContext, useEffect, useState, SetStateAction, Dispatch } from "react";
 

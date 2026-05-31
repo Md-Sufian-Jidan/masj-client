@@ -14,7 +14,7 @@ import {
 } from "@/src/components/ui/dropdown-menu"
 import { Avatar, AvatarFallback, AvatarImage } from "@/src/components/ui/avatar"
 import { useUser } from "@/context/UserContext";
-import { logout } from "@/services/AuthService";
+import { logout } from "@/services/authService";
 import { protectedRoutes } from "@/contants";
 import { usePathname, useRouter } from "next/navigation";
 
