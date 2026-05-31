@@ -67,3 +67,29 @@ export const addProduct = async (productData: FormData): Promise<any> => {
         return Error(error);
     }
 };
+
+// update product
+export const updateProduct = async (productData: FormData, productId: string): Promise<any> => {
+    const cookieStore = await cookies();
+    const token = cookieStore.get("accessToken")?.value;
+    if (!token) {
+        return {
+            success: false,
+            message: "You are not authorized to update a product",
+        };
+    }
+
+    try {
+        const res = await fetch(`${api_url}/product/${productId}`, {
+            method: "PATCH",
+            body: productData,
+            headers: {
+                Authorization: token,
+            },
+        });
+        revalidateTag("PRODUCT", "CACHE");
+        return res.json();
+    } catch (error: any) {
+        return Error(error);
+    }
+};

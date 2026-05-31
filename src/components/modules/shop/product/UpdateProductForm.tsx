@@ -35,27 +35,35 @@ import { addProduct } from "@/services/productService";
 import { getAllCategories } from "@/services/categoryService";
 import { getAllBrands } from "@/services/brandService";
 import Logo from "@/app/assets/svgs/logo";
-import { IBrand, ICategory } from "@/types";
+import { IBrand, ICategory, IProduct } from "@/types";
 
-export default function AddProductsForm() {
+export default function UpdateProductForm({ product }: { product: IProduct }) {
     const [imageFiles, setImageFiles] = useState<File[] | []>([]);
-    const [imagePreview, setImagePreview] = useState<string[] | []>([]);
+    const [imagePreview, setImagePreview] = useState<string[] | []>(product?.imageUrls || []);
     const [categories, setCategories] = useState<ICategory[] | []>([]);
     const [brands, setBrands] = useState<IBrand[] | []>([]);
     const router = useRouter();
 
     const form = useForm({
         defaultValues: {
-            name: "",
-            description: "",
-            price: "",
-            category: "",
-            brand: "",
-            stock: "",
-            weight: "",
-            availableColors: [{ value: "" }],
-            keyFeatures: [{ value: "" }],
-            specification: [{ key: "", value: "" }],
+            name: product?.name || "",
+            description: product?.description || "",
+            price: product?.price || "",
+            category: product?.category?.name || "",
+            brand: product?.brand?.name || "",
+            stock: product?.stock || "",
+            weight: product?.weight || "",
+            availableColors: product?.availableColors?.map((color) => ({
+                value: color,
+            })) || [{ value: "" }],
+
+            specification: Object.entries(product?.specification || {}).map(
+                ([key, value]) => ({ key, value })
+            ) || [{ key: "", value: "" }],
+
+            keyFeatures: product?.keyFeatures?.map((feature) => ({
+                value: feature,
+            })) || [{ value: "" }],
         },
     });
 
@@ -148,7 +156,7 @@ export default function AddProductsForm() {
             <div className="flex items-center space-x-4 mb-5 ">
                 <Logo />
 
-                <h1 className="text-xl font-bold">Add Product</h1>
+                <h1 className="text-xl font-bold">Update Product</h1>
             </div>
             <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)}>
