@@ -18,6 +18,7 @@ export const addFlashSale = async (productData: any): Promise<any> => {
             message: "You are not authorized to add product to flash sale"
         }
     }
+
     try {
         const res = await fetch(`${api_url}/flash-sale`, {
             method: "POST",
