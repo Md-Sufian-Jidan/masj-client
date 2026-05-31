@@ -31,7 +31,7 @@ import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import ImageUploader from "@/components/ui/core/ImageUploader";
 import ImagePreviewer from "@/components/ui/core/ImageUploader/ImagePreview";
-import { addProduct } from "@/services/productService";
+import { addProduct, updateProduct } from "@/services/productService";
 import { getAllCategories } from "@/services/categoryService";
 import { getAllBrands } from "@/services/brandService";
 import Logo from "@/app/assets/svgs/logo";
@@ -138,7 +138,7 @@ export default function UpdateProductForm({ product }: { product: IProduct }) {
         }
 
         try {
-            const res = await addProduct(formData);
+            const res = await updateProduct(formData, product?._id);
 
             if (res.success) {
                 toast.success(res.message);
