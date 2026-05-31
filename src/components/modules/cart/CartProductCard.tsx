@@ -1,9 +1,23 @@
 import { Button } from "@/components/ui/button";
+import { CartProduct, decrementOrderQuantity, incrementOrderQuantity, removeProduct } from "@/redux/features/cartSlice";
+import { useAppDispatch } from "@/redux/hooks";
 import { IProduct } from "@/types";
 import { Minus, Plus, Trash } from "lucide-react";
 import Image from "next/image";
 
-export default function CartProductCard({ product }: { product: IProduct }) {
+export default function CartProductCard({ product }: { product: CartProduct }) {
+    const dispatch = useAppDispatch();
+
+    const handleIncrementQuanitity = (id: string) => {
+        dispatch(incrementOrderQuantity(id));
+    };
+    const handleDecrementQuanitity = (id: string) => {
+        dispatch(decrementOrderQuantity(id));
+    };
+    const handleRemoveProduct = (id: string) => {
+        dispatch(removeProduct(id));
+    };
+
     return (
         <div className="bg-white rounded-lg flex p-5 gap-5">
             <div className="h-full w-32 rounded-md overflow-hidden">
@@ -35,16 +49,30 @@ export default function CartProductCard({ product }: { product: IProduct }) {
                     </h2>
                     <div className="flex items-center gap-2">
                         <p className="text-gray-500 font-semibold">Quantity</p>
-                        <Button variant="outline" className="size-8 rounded-sm">
+                        <Button
+                            disabled={product.orderQuantity === 1}
+                            onClick={() => handleDecrementQuanitity(product._id)}
+                            variant="outline"
+                            className="size-8 rounded-sm"
+                        >
                             <Minus />
                         </Button>
                         <p className="font-semibold text-xl p-2">
-                            {/* {product?.orderQuantity} */}1
+                            {product?.orderQuantity}
                         </p>
-                        <Button variant="outline" className="size-8 rounded-sm">
+                        <Button
+                            disabled={product.orderQuantity === product.stock}
+                            onClick={() => handleIncrementQuanitity(product._id)}
+                            variant="outline"
+                            className="size-8 rounded-sm"
+                        >
                             <Plus />
                         </Button>
-                        <Button variant="outline" className="size-8 rounded-sm">
+                        <Button
+                            onClick={() => handleRemoveProduct(product._id)}
+                            variant="outline"
+                            className="size-8 rounded-sm"
+                        >
                             <Trash className="text-red-500/50" />
                         </Button>
                     </div>
