@@ -86,10 +86,8 @@ export default function AddProductsForm() {
     });
 
     const addSpec = () => {
-        appendSpec({ key: "", value: "" });
-    };
-
-    // console.log(specFields);
+        appendSpec({ key: "", value: "" })
+    }
 
     useEffect(() => {
         const fetchData = async () => {
@@ -106,21 +104,14 @@ export default function AddProductsForm() {
     }, []);
 
     const onSubmit: SubmitHandler<FieldValues> = async (data) => {
-        const availableColors = data.availableColors.map(
-            (color: { value: string }) => color.value
-        );
+        const availableColors = data.availableColors.map((color: { value: string }) => color.value);
 
-        const keyFeatures = data.keyFeatures.map(
-            (feature: { value: string }) => feature.value
-        );
+        const keyFeatures = data.keyFeatures.map((feature: { value: string }) => feature.value);
 
         const specification: { [key: string]: string } = {};
-        data.specification.forEach(
-            (item: { key: string; value: string }) =>
-                (specification[item.key] = item.value)
-        );
+        data.specification.forEach((item: { key: string; value: string }) => (specification[item.key] = item.value));
 
-        // console.log({ availableColors, keyFeatures, specification });
+        console.log({ availableColors, keyFeatures, specification });
 
         const modifiedData = {
             ...data,
@@ -138,18 +129,18 @@ export default function AddProductsForm() {
         for (const file of imageFiles) {
             formData.append("images", file);
         }
-        try {
-            const res = await addProduct(formData);
+        // try {
+        //     const res = await addProduct(formData);
 
-            if (res.success) {
-                toast.success(res.message);
-                router.push("/user/shop/products");
-            } else {
-                toast.error(res.message);
-            }
-        } catch (err: any) {
-            console.error(err);
-        }
+        //     if (res.success) {
+        //         toast.success(res.message);
+        //         router.push("/user/shop/products");
+        //     } else {
+        //         toast.error(res.message);
+        //     }
+        // } catch (err: any) {
+        //     console.error(err);
+        // }
     };
 
     return (
@@ -398,39 +389,41 @@ export default function AddProductsForm() {
                             </Button>
                         </div>
 
-                        {specFields.map((specField, index) => (
-                            <div
-                                key={specField.id}
-                                className="grid grid-cols-1 gap-4 md:grid-cols-2 my-5"
-                            >
-                                <FormField
-                                    control={form.control}
-                                    name={`specification.${index}.key`}
-                                    render={({ field }) => (
-                                        <FormItem>
-                                            <FormLabel>Feature name {index + 1}</FormLabel>
-                                            <FormControl>
-                                                <Input {...field} value={field.value || ""} />
-                                            </FormControl>
-                                            <FormMessage />
-                                        </FormItem>
-                                    )}
-                                />
-                                <FormField
-                                    control={form.control}
-                                    name={`specification.${index}.value`}
-                                    render={({ field }) => (
-                                        <FormItem>
-                                            <FormLabel>Feature Description {index + 1}</FormLabel>
-                                            <FormControl>
-                                                <Input {...field} value={field.value || ""} />
-                                            </FormControl>
-                                            <FormMessage />
-                                        </FormItem>
-                                    )}
-                                />
-                            </div>
-                        ))}
+                        {
+                            specFields.map((specField, index) => (
+                                <div
+                                    key={specField.id}
+                                    className="grid grid-cols-1 gap-4 md:grid-cols-2 my-5"
+                                >
+                                    <FormField
+                                        control={form.control}
+                                        name={`specification.${index}.key`}
+                                        render={({ field }) => (
+                                            <FormItem>
+                                                <FormLabel>Feature name {index + 1}</FormLabel>
+                                                <FormControl>
+                                                    <Input {...field} value={field.value || ""} />
+                                                </FormControl>
+                                                <FormMessage />
+                                            </FormItem>
+                                        )}
+                                    />
+                                    <FormField
+                                        control={form.control}
+                                        name={`specification.${index}.value`}
+                                        render={({ field }) => (
+                                            <FormItem>
+                                                <FormLabel>Feature Description {index + 1}</FormLabel>
+                                                <FormControl>
+                                                    <Input {...field} value={field.value || ""} />
+                                                </FormControl>
+                                                <FormMessage />
+                                            </FormItem>
+                                        )}
+                                    />
+                                </div>
+                            ))
+                        }
                     </div>
 
                     <Button type="submit" className="mt-5 w-full" disabled={isSubmitting}>
