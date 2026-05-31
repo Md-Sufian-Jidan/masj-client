@@ -1,0 +1,19 @@
+.banner {
+    background: url("../../../../app/assets/home-banner.png");
+    height: 500px;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+@media (max-width: 999px) {
+    .banner {
+        height: 400px;
+    }
+}
+
+@media (max-width: 768px) {
+    .banner {
+        height: 350px;
+    }
+}
