@@ -1,6 +1,6 @@
 "use server";
 
-import { IOrder } from "@/types/order";
+import { IOrder } from "@/types";
 import { revalidateTag } from "next/cache";
 import { cookies } from "next/headers";
 

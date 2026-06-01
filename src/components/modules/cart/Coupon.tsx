@@ -6,10 +6,17 @@ import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import { Trash } from "lucide-react";
 import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
 import { toast } from "sonner";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { couponSelector, fetchCoupon, shopSelector, subtotalSelector } from "@/redux/features/cartSlice";
+import { addCoupon } from "@/services/couponService";
 
 export default function Coupon() {
-    const form = useForm();
+    const subtotal = useAppSelector(subtotalSelector);
+    const shopId = useAppSelector(shopSelector);
+    const { isLoading, code, discountValue, error } = useAppSelector(couponSelector);
 
+    const dispatch = useAppDispatch();
+    const form = useForm();
     const couponInput = form.watch("coupon");
 
     const handleRemoveCoupon = () => {
@@ -17,10 +24,22 @@ export default function Coupon() {
     };
 
     const onSubmit: SubmitHandler<FieldValues> = async (data) => {
+        const couponData = {
+            couponCode: data.coupon,
+            subtotal: subtotal,
+            shopId: shopId
+        }
+
         try {
-            console.log(data);
+
+            const res = await dispatch(fetchCoupon(couponData)).unwrap();
+
+            if (res?.success) {
+                toast.success(res?.message);
+            } else {
+                toast.error(res?.message);
+            }
         } catch (error: any) {
-            console.log(error);
             toast.error(error.message);
         }
     };
@@ -55,7 +74,7 @@ export default function Coupon() {
                                 type="submit"
                                 className="w-full text-xl font-semibold py-5 "
                             >
-                                Apply
+                                {isLoading ? "Applying..." : "Apply"}
                             </Button>
                             {couponInput && (
                                 <Button
