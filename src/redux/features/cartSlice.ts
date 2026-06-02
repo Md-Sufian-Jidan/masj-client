@@ -42,7 +42,8 @@ export const fetchCoupon = createAsyncThunk(
         } catch (error: any) {
             throw new Error(error.message);
         }
-    });
+    }
+);
 
 const cartSlice = createSlice({
     name: "cart",
@@ -136,6 +137,7 @@ export const orderSelector = (state: RootState) => {
             quantity: product.orderQuantity,
             color: "White", // make it dynamic
         })),
+        // coupon: state.cart.coupon.code,
         shippingAddress: `${state.cart.shippingAddress} - ${state.cart.city}`,
         paymentMethod: "Online",
     };
@@ -179,12 +181,17 @@ export const shippingCostSelector = (state: RootState) => {
 export const grandTotalSelector = (state: RootState) => {
     const subTotal = subtotalSelector(state);
     const shippingCost = shippingCostSelector(state);
+    const discountAmout = discountValueSelector(state);
 
-    return subTotal + shippingCost;
+    return (subTotal - discountAmout) + shippingCost;
 };
 
 export const couponSelector = (state: RootState) => {
     return state.cart.coupon;
+};
+
+export const discountValueSelector = (state: RootState) => {
+    return state.cart.coupon.discountValue;
 };
 
 // Address
