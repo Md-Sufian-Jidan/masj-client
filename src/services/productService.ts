@@ -9,9 +9,26 @@ if (!api_url) {
 }
 
 // get all products
-export const getAllProducts = async (page?: string, limit?: string) => {
+export const getAllProducts = async (page?: string, limit?: string, query?: { [key: string]: string | string[] | undefined }) => {
+
+    const params = new URLSearchParams();
+    if (query?.price) {
+        params.append("minPrice", "0");
+        params.append("maxPrice", query.price.toString());
+    }
+
+    if (query?.category) {
+        params.append("categories", query?.category.toString());
+    }
+    if (query?.brand) {
+        params.append("brands", query?.brand.toString());
+    }
+    if (query?.rating) {
+        params.append("ratings", query?.rating.toString());
+    }
+
     try {
-        const res = await fetch(`${api_url}/product?page=${page}&limit=${limit}`, {
+        const res = await fetch(`${api_url}/product?page=${page}&limit=${limit}&${params}`, {
             next: {
                 tags: ["PRODUCT"],
             },

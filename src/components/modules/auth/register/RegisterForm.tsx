@@ -18,6 +18,7 @@ import { registrationSchema } from "./registerValidation";
 import { toast } from "sonner";
 import { z } from "zod";
 import { registerUser } from "@/services/authService";
+import { useUser } from "@/context/UserContext";
 
 export default function RegisterForm() {
     const form = useForm<z.infer<typeof registrationSchema>>({
@@ -29,12 +30,15 @@ export default function RegisterForm() {
             passwordConfirm: "",
         },
     });
+    const { setIsLoading } = useUser();
 
     const { formState: { isSubmitting } } = form;
 
     const onSubmit: SubmitHandler<z.infer<typeof registrationSchema>> = async (data) => {
         try {
+            setIsLoading(true);
             const res = await registerUser(data);
+            setIsLoading(false);
             if (res?.success) {
                 toast.success(res?.message);
             } else {

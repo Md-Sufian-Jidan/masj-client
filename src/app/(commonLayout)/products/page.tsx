@@ -6,9 +6,14 @@ import { getAllCategories } from "@/services/categoryService";
 import CategoryCard from "@/components/ui/core/CategoryCard";
 import AllProducts from "@/components/modules/products";
 
-const AllProductsPage = async () => {
+type SearchParams = Promise<{ [key: string]: string | string[] | undefined }>;
+
+
+const AllProductsPage = async ({ searchParams }: { searchParams: SearchParams }) => {
+    const query = await searchParams;
+
     const { data: categories } = await getAllCategories();
-    const { data: products } = await getAllProducts();
+    const { data: products } = await getAllProducts(undefined, undefined, query);
 
     return (
         <ResuableContainer>

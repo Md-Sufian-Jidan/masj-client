@@ -1,6 +1,6 @@
 "use server";
+import { getValidToken } from "@/lib/verifyToken";
 import { revalidateTag } from "next/cache";
-import { cookies } from "next/headers";
 
 const api_url = process.env.NEXT_PUBLIC_BASE_API;
 
@@ -25,20 +25,13 @@ export const getAllBrands = async () => {
 
 // create brand
 export const createBrand = async (brandData: FormData): Promise<any> => {
-    const cookieStore = await cookies();
-    const token = cookieStore.get("accessToken")?.value;
-    if (!token) {
-        return {
-            success: false,
-            message: "You are not authorized to create a brand"
-        }
-    }
+    const token = await getValidToken();
     try {
         const res = await fetch(`${api_url}/brand`, {
             method: "POST",
             body: brandData,
             headers: {
-                Authorization: (await cookies()).get("accessToken")!.value,
+                Authorization: token,
             },
         });
         revalidateTag("Brands", "CACHE");
@@ -50,15 +43,7 @@ export const createBrand = async (brandData: FormData): Promise<any> => {
 
 // delete brand
 export const deleteBrand = async (brandId: string): Promise<any> => {
-    const cookieStore = await cookies();
-    const token = cookieStore.get("accessToken")?.value;
-    if (!token) {
-        return {
-            success: false,
-            message: "You are not authorized to delete a brand"
-        }
-    }
-
+    const token = await getValidToken();
     try {
         const res = await fetch(
             `${api_url}/brand/${brandId}`,

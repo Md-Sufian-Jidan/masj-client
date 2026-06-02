@@ -13,6 +13,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useUser } from "@/context/UserContext";
 
 const reCaptchaClientKey = process.env.NEXT_PUBLIC_RECAPTCHA_CLIENT_KEY;
 
@@ -24,6 +25,8 @@ export default function LoginForm() {
     const form = useForm({
         resolver: zodResolver(loginSchema as any),
     });
+
+    const { setIsLoading } = useUser()
 
     const [reCaptchaStatus, setReCaptchaStatus] = useState(false);
 
@@ -46,7 +49,9 @@ export default function LoginForm() {
 
     const onSubmit: SubmitHandler<FieldValues> = async (data) => {
         try {
+            setIsLoading(true)
             const res = await loginUser(data);
+            setIsLoading(false)
             if (res?.success) {
                 toast.success(res?.message);
                 if (redirect) {

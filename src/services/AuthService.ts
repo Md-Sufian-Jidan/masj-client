@@ -22,6 +22,7 @@ export const registerUser = async (userData: FieldValues) => {
         const cookieStore = await cookies();
         if (result.success) {
             cookieStore.set("accessToken", result.data.accessToken);
+            cookieStore.set("refreshToken", result.data.refreshToken);
         }
 
         return result;
@@ -46,6 +47,7 @@ export const loginUser = async (userData: FieldValues) => {
         const cookieStore = await cookies();
         if (result.success) {
             cookieStore.set("accessToken", result.data.accessToken);
+            cookieStore.set("refreshToken", result.data.refreshToken);
         }
 
         return result;
@@ -97,3 +99,29 @@ export const logout = async () => {
     const cookieStore = await cookies();
     await cookieStore.delete("accessToken");
 };
+
+export const getNewToken = async () => {
+    const cookieStore = await cookies();
+    const refreshToken = cookieStore.get("refreshToken")?.value;
+    if (!refreshToken) {
+        return {
+            success: false,
+            message: "You are not logged in! Please login again"
+        }
+    }
+    try {
+        const res = await fetch(`${api_url}/auth/refresh-token`, {
+            method: "POST",
+            headers: {
+                Authorization: refreshToken,
+                "Content-Type": "application/json",
+            },
+        });
+        return await res.json();
+    } catch (error: any) {
+        return {
+            success: false,
+            message: error?.message || "Something went wrong during registration",
+        };
+    }
+}
